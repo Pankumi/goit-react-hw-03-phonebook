@@ -5,17 +5,27 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 
+import contactsData from '../data/default-contacts.json';
+
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', userName: 'Rosie Simpson', userNumber: '459-12-56' },
-      { id: 'id-2', userName: 'Hermione Kline', userNumber: '443-89-12' },
-      { id: 'id-3', userName: 'Eden Clements', userNumber: '645-17-79' },
-      { id: 'id-4', userName: 'Annie Copeland', userNumber: '227-91-26' },
-    ],
+    contacts: JSON.parse(localStorage.getItem('contacts')) ?? contactsData,
     filter: '',
   };
 
+  componentDidMount() {}
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if(prevState.contacts !== this.state.contacts) {
+      console.log(`${prevState.contacts} >> ${this.state.contacts}`);
+
+      const stringifiedContacts = JSON.stringify(this.state.contacts);
+      localStorage.setItem('contacts', stringifiedContacts);
+    }
+  }
+
+  componentWillUnmount() {}
+  
   addContacts = newContact => {
     if (
       this.state.contacts.some(
