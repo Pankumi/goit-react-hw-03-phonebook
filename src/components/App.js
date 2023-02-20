@@ -9,14 +9,18 @@ import contactsData from '../data/default-contacts.json';
 
 export class App extends Component {
   state = {
-    contacts: JSON.parse(localStorage.getItem('contacts')) ?? contactsData,
+    contacts: [],
     filter: '',
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    const initial =
+      JSON.parse(localStorage.getItem('contacts')) ?? contactsData;
+    this.setState({ contacts: initial });
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if(prevState.contacts !== this.state.contacts) {
+    if (prevState.contacts !== this.state.contacts) {
       console.log(`${prevState.contacts} >> ${this.state.contacts}`);
 
       const stringifiedContacts = JSON.stringify(this.state.contacts);
@@ -25,7 +29,7 @@ export class App extends Component {
   }
 
   componentWillUnmount() {}
-  
+
   addContacts = newContact => {
     if (
       this.state.contacts.some(
@@ -56,9 +60,11 @@ export class App extends Component {
 
   deleteContact = evt => {
     this.setState({
-      contacts: this.state.contacts.filter(contact => contact.id !== evt.target.id)
-    })
-  }
+      contacts: this.state.contacts.filter(
+        contact => contact.id !== evt.target.id
+      ),
+    });
+  };
 
   render() {
     const filterContact = this.state.contacts.filter(contact =>
@@ -79,7 +85,10 @@ export class App extends Component {
           filterValue={this.state.filter}
           filterChange={this.filterChange}
         />
-        <ContactList contacts={filterContact} deleteContact={this.deleteContact} />
+        <ContactList
+          contacts={filterContact}
+          deleteContact={this.deleteContact}
+        />
       </Box>
     );
   }
