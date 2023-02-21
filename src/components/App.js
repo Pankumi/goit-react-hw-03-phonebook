@@ -28,8 +28,6 @@ export class App extends Component {
     }
   }
 
-  componentWillUnmount() {}
-
   addContacts = newContact => {
     if (
       this.state.contacts.some(
@@ -40,13 +38,13 @@ export class App extends Component {
       return;
     }
 
-    this.setState(prevState => {
-      return { contacts: [...prevState.contacts, newContact] };
-    });
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact]
+    }));
     // // or:
-    // this.setState(prevState => ({
-    //   contacts: [...prevState.contacts, newContact]
-    // }));
+    // this.setState(prevState => {
+    //   return { contacts: [...prevState.contacts, newContact] };
+    // });
     // // or:
     // this.setState({
     //   contacts: [...this.state.contacts, newContact],
